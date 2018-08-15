@@ -12,7 +12,7 @@ import (
 	"github.com/gorilla/sessions"
 	_ "github.com/mattn/go-sqlite3"
 
-	"meutel.net/meutel/go-bouquins/bouquins"
+	"github.com/chazu/go-bouquins/bouquins"
 )
 
 // ReadConfig loads configuration file and initialize default value
