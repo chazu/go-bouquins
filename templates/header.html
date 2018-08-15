@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <title>{{ if .Title }}{{ .Title }} | {{ end }}Bouquins</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="{{ assetUrl "bootstrap" "css" }}">
+    <link rel="stylesheet" href="{{ assetUrl "bouquins" "css" }}">
+    <link rel="preload" href="{{ assetUrl "vue" "js" }}" as="script">
+    <link rel="prefetch" href="{{ assetUrl "vue" "js" }}">
+    <link rel="preload" href="{{ assetUrl "bouquins" "js" }}" as="script">
+    <link rel="prefetch" href="{{ assetUrl "bouquins" "js" }}">
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse" id="nav">
+      <div class="container">
+        <ul class="nav navbar-nav">
+          <li{{ if ne .Page "search" }}{{ if (ne .Page "about") }} class="active"{{ end }}{{ end }}><a href="/">Accueil</a></li>
+          <li{{ if eq .Page "search" }} class="active"{{ end }}><a href="/search/">Recherche</a></li>
+          <li{{ if eq .Page "about" }} class="active"{{ end }}><a href="/about/">A propos</a></li>
+        </ul>
+        <form class="navbar-form navbar-right" role="search" method="get" action="/search/">
+          <div class="form-group">
+            <input name="q" type="text" class="form-control" placeholder="Recherche">
+          </div>
+        </form>
+        <ul class="nav navbar-nav navbar-right">
+{{ if .Username }}
+          <li><a href="/logout">{{ .Username }} <span title="Déconnexion" class="glyphicon glyphicon-log-out"></span></a></li>
+{{ else }}
+          <li><a href="/login">Connexion <span class="glyphicon glyphicon-log-in"></span></a></li>
+{{ end }}
+        </ul>
+      </div>
+    </nav>

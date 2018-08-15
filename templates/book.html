@@ -1,0 +1,78 @@
+{{ template "header.html" . }}
+<div class="container" id="app">
+  {{ if .ID }}
+  <div class="page-header">
+    {{ if .HasCover }}
+    <div class="row">
+      <a href="#bookinfo">
+        <img src="{{ bookCover .BookFull }}" alt="Pas de couverture" title="Couverture" class="img-responsive img-rounded" width="400px"/>
+      </a>
+    </div>
+    {{ end }}
+    <div class="row" id="bookinfo">
+      <div class="col-xs-12 col-md-9">
+        <h1>
+          <span class="glyphicon glyphicon-book"></span>
+          {{ .Title }}
+        </h1>
+      </div>
+      {{ if gt (len .Data) 0 }}
+      <div class="col-xs-12 col-md-3 text-right">
+        {{ $book := .BookFull }}
+        {{ range .Data }}
+        <a href="{{ bookLink . $book }}" class="btn btn-success">
+          <span class="glyphicon glyphicon-download-alt"></span> Télécharger
+          {{ .Format }} ({{ humanSize .Size }})
+        </a>
+        {{ end }}
+      </div>
+      {{ end }}
+    </div>
+  </div>
+  <div class="row">
+    <h2>
+      <span class="glyphicon glyphicon-user"></span> Auteur{{ if gt (len .Authors) 1 }}s{{ end }}
+    </h2>
+    <ul>
+      {{ range .Authors }}
+      <li>
+        <a href="/authors/{{.ID}}">{{ .Name }}</a>
+      </li>
+      {{ end }}
+    </ul>
+
+    {{ if .Series }}
+    <h2>
+      <span class="glyphicon glyphicon-list"></span> Serie
+    </h2>
+    <div>
+      <a href="/series/{{ .Series.ID }}">{{ .Series.Name }}</a>
+      <span class="badge">{{ .SeriesIndex }}</span>
+    </div>
+    {{ end }}
+    
+    <h2><span class="glyphicon glyphicon-globe"></span> Langue</h2>
+    <ul><li>{{ .Lang }}</li></ul>
+
+    {{ if gt (len .Tags) 0 }}
+    <h2>
+      <span class="glyphicon glyphicon-tags"></span> Tags
+    </h2>
+    <div v-if="book.tags">
+      {{ range .Tags }}
+      <span class="label label-info">{{ . }}</span>&nbsp;
+      {{ end }}
+    </div>
+    {{ end }}
+
+    <h2>Détails</h2>
+    <ul>
+      <li v-if="book.pubdate"><strong>Date de publication</strong> {{ .Pubdate }}</li>
+      <li v-if="book.publisher"><strong>Editeur</strong> {{ .Publisher }}</li>
+    </ul>
+  </div>
+  {{ else }}
+  <div class="alert alert-danger" role="alert">Aucun livre sélectionné</div>
+  {{ end }}
+</div>
+{{ template "footer.html" . }}

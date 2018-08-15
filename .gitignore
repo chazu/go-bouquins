@@ -1,0 +1,8 @@
+*.swp
+*~ 
+go-bouquins
+calibre.db
+bouquins.json
+Gopkg.lock
+vendor/
+users.db

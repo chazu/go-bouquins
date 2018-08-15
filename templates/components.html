@@ -1,0 +1,38 @@
+<script type="text/x-template" id="results-template">
+  <table class="table table-striped" v-if="results.length > 0">
+    <tbody>
+      <tr>
+        <th v-for="col in cols">
+          <template v-if="col.sort">
+          <a href="#" @click="sortBy(col.sort)">{{ "{{" }}col.name{{ "}}" }}</a>
+          <span v-if="sort_by == col.id" :class="['glyphicon',  { 'glyphicon-chevron-up': order_desc , 'glyphicon-chevron-down': !order_desc}]"></span>
+          </template>
+          <template v-else>{{ "{{" }}col.name{{ "}}" }}</template>
+        </th>
+      </tr>
+      <tr v-for="item in results">
+        <td is="result-cell" :col="col" :item="item" v-for="col in cols"></td>
+      </tr>
+    </tbody>
+  </table>
+</script>
+<script type="text/x-template" id="paginate-template">
+  <nav aria-label="Pages" v-if="page > 0">
+  <ul class="pager">
+    <li class="previous" v-bind:class="{ disabled: page <= 1 }"><a href="#" @click="prevPage"><span aria-hidden="true">&larr;</span> Précédents</a></li>
+    <li class="next" v-bind:class="{ disabled: !more }"><a href="#" @click="nextPage">Suivants <span aria-hidden="true">&rarr;</span></a></li>
+  </ul>
+</nav>
+</script>
+<script type="text/x-template" id="results-list-template">
+  <div v-if="count > 0">
+    <h2>{{ "{{ count }} {{ countlabel() }}" }}</h2>
+    <ul>
+      <li v-for="item in results" class="list-unstyled">
+      <span :class="iconClass()"></span>
+      <a :href="url(item)">{{ "{{ label(item) }}" }}</a>
+      </li>
+      <li v-if="results.length < count" class="list-unstyled">...</li>
+    </ul>
+  </div>
+</script>

@@ -1,0 +1,60 @@
+{{ template "header.html" . }}
+<div class="container" id="author">
+  {{ if .ID }}
+  <div class="page-header">
+    <h1>
+      <span class="glyphicon glyphicon-user"></span>
+      {{ .Name }}
+    </h1>
+  </div>
+  <ul class="nav nav-pills">
+    <li role="presentation" :class="{ active: tab == 'books' }"><a href="#" @click="showBooks">Livres</a></li>
+    {{ if gt (len .Series) 0 }}
+    <li role="presentation" :class="{ active: tab == 'series' }"><a href="#" @click="showSeries">Series</a></li>
+    {{ end }}
+    {{ if gt (len .CoAuthors) 0 }}
+    <li role="presentation" :class="{ active: tab == 'authors' }"><a href="#" @click="showAuthors">Co-auteurs</a></li>
+    {{ end }}
+  </ul>
+  <div class="panel panel-default" :class="{ hidden: tab != 'books' }">
+    <div class="panel-body">
+      {{ range .Books }}
+      <ul class="list-unstyled">
+        <li><span class="glyphicon glyphicon-book"></span> 
+          <a href="/books/{{ .ID }}">{{ .Title }}</a>
+        </li>
+      </ul>
+      {{ end }}
+    </div>
+  </div>
+  {{ if gt (len .Series) 0 }}
+  <div class="panel panel-default" :class="{ hidden: tab != 'series' }">
+    <div class="panel-body">
+      {{ range .Series }}
+      <ul class="list-unstyled">
+        <li><span class="glyphicon glyphicon-list"></span> 
+        <a href="/series/{{ .ID }}">{{ .Name }}</a>
+        </li>
+      </ul>
+      {{ end }}
+    </div>
+  </div>
+  {{ end }}
+  {{ if gt (len .CoAuthors) 0 }}
+  <div class="panel panel-default" :class="{ hidden: tab != 'authors' }">
+    <div class="panel-body">
+      {{ range .CoAuthors }}
+      <ul class="list-unstyled">
+        <li> <span class="glyphicon glyphicon-user"></span>
+        <a href="/authors/{{ .ID }}">{{ .Name }}</a>
+        </li>
+      </ul>
+      {{ end }}
+    </div>
+  </div>
+  {{ end }}
+  {{ else }}
+  <div class="alert alert-danger" role="alert">Aucun auteur sélectionné</div>
+  {{ end }}
+</div>
+{{ template "footer.html" . }}
